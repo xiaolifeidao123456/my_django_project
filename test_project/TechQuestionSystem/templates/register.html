@@ -1,0 +1,145 @@
+
+{% extends 'base_user.html' %}
+
+{% block title %}
+    注册
+{% endblock %}
+
+{% block extCss %}
+    {{ block.super }}
+    {% load static %}
+    <link href="{% static 'user/css/iconfont/iconfont.css' %}" rel="stylesheet"/>
+    <link href="{% static 'user/css/common.css' %}" rel="stylesheet"/>
+    <link href="{% static 'user/css/login.css' %}" rel="stylesheet"/>
+
+    <link rel='stylesheet' id='bootstrap-css-css'  href="{% static 'css/bootstrap5152.css' %}" type='text/css' media='all' />
+    <link rel='stylesheet' id='main-css-css'  href="{% static 'css/main5152.css' %}" type='text/css' media='all'/>
+
+{% endblock %}
+
+{% block content %}
+    <!--头部-->
+    <div class="header-wrapper">
+    <header>
+        <div class="container">
+            <div class="logo-container">
+                <a href="/"  title="Knowledge Base Theme">
+                        <img src="{% static 'images/logo.png' %}" alt="Knowledge Base Theme">
+                </a>
+                <span class="tag-line">知识改变命运</span>
+            </div>
+            <nav class="main-nav">
+                <div class="menu-top-menu-container">
+                    <ul id="menu-top-menu" class="clearfix">
+                        <li class="current-menu-item"><a href="/">首页</a></li>
+                        <li><a href="{% url 'users:login' %}">登录</a></li>
+                        <li><a href="{% url 'users:register' %}">注册</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+    </div>
+    <div class="login-main-wrap">
+        <div class="login-main wrapper" style="height: 750px;">
+            <div class="center-box">
+                <form id="login_form" action="" method="post">
+                    {% csrf_token %}
+                    <div class="box-hd">
+                        <span class="tit">用户注册</span>
+                        <a href="{% url 'users:login' %}">账号登陆</a>
+                    </div>
+                    <label class="txtin-box">
+                        <input class="txtin" type="text" value="{{ data.username }}" name="username" id="username" placeholder="用户名" onblur="check_username();"/>
+                        <p id="username_error" class="error_msg">{{ form.errors.username.0 }}</p>
+                    </label>
+                    <label class="txtin-box">
+                        <input class="txtin" type="text" id="mobile" value="{{ data.mobile }}" name="mobile" placeholder="手机" onblur="check_phone();"/>
+                        <p id="mobile_error" class="error_msg">{{ form.errors.mobile.0 }}</p>
+                    </label>
+                    <!--<label class="txtin-box txtin-box-code">-->
+                        <!--<input class="txtin" type="text" name="mobile_msg" placeholder="手机验证码" />-->
+                        <!--<a class="get-yzm" onclick="send_msg();">获取验证码</a>-->
+                        <!--<p id="mobile_msg" class="error_msg"></p>-->
+                    <!--</label>-->
+                    <label class="txtin-box">
+                        <input class="txtin" type="password" id="password" name="password" placeholder="输入密码" />
+                    </label>
+                    <label class="txtin-box">
+                        <input class="txtin" type="password" id="password2" name="password2" placeholder="确认密码" onblur="check_pwd();"/>
+                        <p id="password_error" class="error_msg">{{ form.errors.password.0 }}</p>
+                    </label>
+                    <div class="clearfix tool">
+                        <label class="check"><input type="checkbox" name="allow" id="allow" value="1"/>我已阅读并同意千锋教育《<a href="">服务协议</a>》</label>
+                        <p id="allow_error" class="error_msg">{{ form.errors.allow.0 }}</p>
+                    </div>
+                    <input class="tjj" type="submit" value="注&ensp;册" style="width:100%;"/>
+                </form>
+            </div>
+        </div>
+    </div>
+<script>
+    // 验证用户名
+    function check_username() {
+        var username = $('#username').val()
+        if(!username){
+            $('#username_error').html('请输入用户名')
+            $('#username').focus();
+        }else{
+            $('#username_error').html('')
+        }
+    }
+    // 验证手机号
+    function isPhoneNo(phone) {
+        var pattern = /^1[34578]\d{9}$/;
+        return pattern.test(phone);
+    }
+
+    function check_phone(){
+        if(isPhoneNo($('#mobile').val()) == false) {
+           str = '手机号码不正确\n';
+           $('#mobile_error').html(str);
+           $('#mobile').focus();
+        }else{
+            $('#mobile_error').html('');
+        }
+    }
+
+    <!--校验两次密码是否一致-->
+    function check_pwd(){
+        var pwd1 = $('#password').val();
+        var pwd2 = $('#password2').val();
+        if(pwd1 != pwd2){
+            var pwd_str = '两次密码不一致'
+            $('#password_error').html(pwd_str)
+        }else{
+            $('#password_error').html('')
+        }
+    }
+
+    <!--发送短信验证码-->
+    function send_msg(){
+        var mobile = $('#mobile').val()
+        if(!mobile){
+            $('#mobile_error').html('请填写手机号');
+            return false;
+        }
+        var csrf = $('input[name="csrfmiddlewaretoken"]').val()
+        $.ajax({
+            url:'/users/send_msg/',
+            data:{'mobile': mobile},
+            dataType:'json',
+            type:'POST',
+            headers:{'X-CSRFToken': csrf},
+            success:function(data){
+                if(data.code == '200'){
+                    $('#mobile_error').html('请输入手机短信中获取的验证码');
+                }else{
+                    $('#mobile_error').html(data.msg);
+                }
+            }
+        })
+    }
+
+</script>
+{% endblock %}

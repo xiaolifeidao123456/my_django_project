@@ -1,0 +1,48 @@
+
+{% extends 'base_main.html' %}
+
+{% block title %}
+    知识技术首页
+{% endblock %}
+
+{% block content %}
+{% load static %}
+
+    {% block header %}
+        {{ block.super }}
+    {% endblock %}
+    <div class="page-container">
+        <div class="container">
+            <div class="row">
+                <div class="span8 page-content">
+                    <article class="type-page hentry clearfix">
+                        <h1 class="post-title">
+                            <a href="#">联系我们</a>
+                        </h1>
+                        <hr>
+                        <p>该项目用于收集各种面试题，针对面试中遇到的各种疑难杂疑面试题进行收集与详细的讲解</p>
+                        <p>千锋教育成都分校</p>
+                    </article>
+                </div>
+                <aside class="span4 page-sidebar">
+                    <section class="widget">
+                        <div class="support-widget">
+                            <h3 class="title">支持</h3>
+                                <p class="intro">需要支持？如果你没有找到想要搜索的面试考题，请联系我们。</p>
+                        </div>
+                    </section>
+                    <section class="widget">
+                        <h3 class="title">Latest Articles</h3>
+                        <ul class="articles">
+                            <li class="article-entry standard">
+                                <h4><a href="single.html">Integrating WordPress with Your Website</a></h4>
+                                <span class="article-meta">25 Feb, 2013 in <a href="#" title="View all posts in Server &amp; Database">Server &amp; Database</a></span>
+                                <span class="like-count">66</span>
+                            </li>
+                        </ul>
+                    </section>
+                </aside>
+            </div>
+        </div>
+    </div>
+ {% endblock %}

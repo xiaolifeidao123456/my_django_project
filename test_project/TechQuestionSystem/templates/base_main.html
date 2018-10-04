@@ -1,0 +1,95 @@
+
+{% extends 'base.html' %}
+
+{% block extCss %}
+    {% load static %}
+    <link rel="shortcut icon" href="{% static 'images/favicon.png' %}" />
+
+    <link rel="stylesheet" href="{% static 'style.css' %}"/>
+    <link rel='stylesheet' id='bootstrap-css-css'  href="{% static 'css/bootstrap5152.css' %}" type='text/css' media='all' />
+    <link rel='stylesheet' id='responsive-css-css'  href="{% static 'css/responsive5152.css' %}" type='text/css' media='all' />
+    <link rel='stylesheet' id='pretty-photo-css-css'  href="{% static 'js/prettyphoto/prettyPhotoaeb9.css' %}" type='text/css' media='all' />
+    <link rel='stylesheet' id='main-css-css'  href="{% static 'css/main5152.css' %}" type='text/css' media='all'/>
+    <link rel='stylesheet' id='custom-css-css'  href="{% static 'css/custom5152.html' %}" type='text/css' media='all' />
+
+
+{% endblock %}
+
+{% block extJs %}
+    {% load static %}
+    <script src="{% static 'js/html5.js' %}"></script>
+    <script type='text/javascript' src="{% static 'js/jquery-1.8.3.min.js' %}"></script>
+    <script>
+        $.ajax({
+            url:'/users/user_status/',
+            dataType:'json',
+            type:'GET',
+            success:function(data){
+                if(data.code == '200'){
+                    username = data.data[0].fields.username
+                    var header_li = '<li>' + username + '</li>'
+                    header_li += '<li><a href="{% url 'users:logout' %}">注销</a></li>'
+                    $('#menu-top-menu').html(header_li)
+                }
+            }
+        })
+    </script>
+{% endblock %}
+
+{% block header %}
+<div class="header-wrapper">
+    <header>
+        <div class="container">
+            <div class="logo-container">
+                <a href="/"  title="Knowledge Base Theme">
+                        <img src="{% static 'images/logo.png' %}" alt="Knowledge Base Theme">
+                </a>
+                <span class="tag-line">知识改变命运</span>
+            </div>
+            <!-- Start of Main Navigation -->
+            <nav class="main-nav">
+                <div class="menu-top-menu-container">
+                    <ul id="menu-top-menu" class="clearfix">
+                        <li class="current-menu-item"><a href="/">首页</a></li>
+                        <li><a href="{% url 'users:login' %}">登录</a></li>
+                        <li><a href="{% url 'users:register' %}">注册</a></li>
+                        <!--<li><a href="articles_list.html">Articles List</a></li>-->
+                        <!--<li><a href="faq.html">FAQs</a></li>-->
+                        <!--<li><a href="#">Skins</a>-->
+                            <!--<ul class="sub-menu">-->
+                                <!--<li><a href="blue-skin.html">Blue Skin</a></li>-->
+                                <!--<li><a href="green-skin.html">Green Skin</a></li>-->
+                                <!--<li><a href="red-skin.html">Red Skin</a></li>-->
+                                <!--<li><a href="index-2.html">Default Skin</a></li>-->
+                            <!--</ul>-->
+                        <!--</li>-->
+                        <!--<li><a href="#">More</a>-->
+                            <!--<ul class="sub-menu">-->
+                                    <!--<li><a href="full-width.html">Full Width</a></li>-->
+                                    <!--<li><a href="elements.html">Elements</a></li>-->
+                                    <!--<li><a href="page.html">Sample Page</a></li>-->
+                            <!--</ul>-->
+                        <!--</li>-->
+                        <!--<li><a href="contact.html">Contact</a></li>-->
+                    </ul>
+                </div>
+            </nav>
+            <!-- End of Main Navigation -->
+        </div>
+    </header>
+</div>
+
+<div class="search-area-wrapper">
+    <div class="search-area container">
+        <h3 class="search-header">乐搜</h3>
+        <p class="search-tag-line">面试问题答不上怎么办，请上乐搜！专业解决疑难杂症!</p>
+
+        <form id="search-form" class="search-form clearfix" method="get" action="{% url 'home:search' %}" autocomplete="off">
+            <input class="search-term required" type="text" id="s" name="search_msg" placeholder="请输入搜索关键字" title="* 请输入问题" />
+            <input class="search-btn" type="submit" value="Search" />
+            <div id="search-error-container"></div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

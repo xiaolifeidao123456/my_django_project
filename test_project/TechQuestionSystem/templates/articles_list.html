@@ -1,0 +1,82 @@
+
+{% extends 'base_main.html' %}
+
+{% block title %}
+    知识技术首页
+{% endblock %}
+
+{% block content %}
+{% load static %}
+
+    {% block header %}
+        {{ block.super }}
+    {% endblock %}
+    <div class="page-container">
+        <div class="container">
+            <div class="row">
+                <div class="span8 main-listing">
+                    {% for article in page %}
+                        <article class="format-standard type-post hentry clearfix">
+                            <header class="clearfix">
+                                <h3 class="">
+                                    <a href="{% url 'home:detail' article.id %}">{{ article.a_title }}</a>
+                                </h3>
+                                <div class="post-meta clearfix">
+                                    <span class="date">25 Feb, 2013</span>
+                                    <span class="category"><a href="#" title="View all posts in Server &amp; Database">Server &amp; Database</a></span>
+                                    <span class="comments"><a href="#" title="Comment on Integrating WordPress with Your Website">3 Comments</a></span>
+                                    <span class="like-count">66</span>
+                                </div><!-- end of post meta -->
+                            </header>
+                            <p>{{ article.a_desc }}<a>Read more</a></p>
+                        </article>
+                    {% endfor %}
+                    <div id="pagination">
+                        {% for i in page.paginator.page_range %}
+                            <a href="?search_msg={{ search_msg }}&page={{ i }}" {% if page.number == i %} class="btn active"{% else %} class="btn" {% endif %}>{{ i }}</a>
+                        {% endfor %}
+                        {% if page.has_next %}
+                            <a href="?search_msg={{ search_msg }}&page={{ page.next_page_number }}" class="btn">Next »</a>
+                        {% endif %}
+                        {% if page.has_previous %}
+                        <a href="?search_msg={{ search_msg }}&page={{ page.previous_page_number }}" class="btn">Last »</a>
+                        {% endif %}
+                    </div>
+
+                </div>
+                <aside class="span4 page-sidebar">
+
+                    <section class="widget">
+                        <div class="support-widget">
+                            <h3 class="title">支持</h3>
+                            <p class="intro">需要支持？如果你没有找到想要搜索的面试考题，请联系我们。</p>
+                        </div>
+                    </section>
+                    <section class="widget">
+                        <h3 class="title">特色面试题</h3>
+                        <ul class="articles">
+                            <li class="article-entry standard">
+                                    <h4><a href="single.html">Integrating WordPress with Your Website</a></h4>
+                                    <span class="article-meta">25 Feb, 2013 in <a href="#" title="View all posts in Server &amp; Database">Server &amp; Database</a></span>
+                                    <span class="like-count">66</span>
+                            </li>
+                        </ul>
+                    </section>
+                    <section class="widget"><h3 class="title">分类</h3>
+                        <ul>
+                            {% for category in categorys %}
+                                <li><a href="{% url 'home:list' category.id %}" title="Lorem ipsum dolor sit amet,">{{ category.c_title }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </section>
+                    <section class="widget">
+                        <h3 class="title">最近评论</h3>
+                        <ul id="recentcomments">
+                            <li class="recentcomments"><a href="#" rel="external nofollow" class="url">John Doe</a> on <a href="#">Integrating WordPress with Your Website</a></li>
+                        </ul>
+                    </section>
+                </aside>
+            </div>
+        </div>
+    </div>
+{% endblock %}

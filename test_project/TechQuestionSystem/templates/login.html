@@ -1,0 +1,73 @@
+
+{% extends 'base_user.html' %}
+
+{% block title %}
+    登陆
+{% endblock %}
+
+{% block extCss %}
+    {% load static %}
+    <link href="{% static 'user/css/iconfont/iconfont.css' %}" rel="stylesheet"/>
+    <link href="{% static 'user/css/common.css' %}" rel="stylesheet"/>
+    <link href="{% static 'user/css/login.css' %}" rel="stylesheet"/>
+
+    <link rel='stylesheet' id='bootstrap-css-css'  href="{% static 'css/bootstrap5152.css' %}" type='text/css' media='all' />
+    <link rel='stylesheet' id='main-css-css'  href="{% static 'css/main5152.css' %}" type='text/css' media='all'/>
+
+{% endblock %}
+
+{% block content %}
+    <!--头部-->
+    <div class="header-wrapper">
+    <header>
+        <div class="container">
+            <div class="logo-container">
+                <a href="/"  title="Knowledge Base Theme">
+                        <img src="{% static 'images/logo.png' %}" alt="Knowledge Base Theme">
+                </a>
+                <span class="tag-line">知识改变命运</span>
+            </div>
+            <nav class="main-nav">
+                <div class="menu-top-menu-container">
+                    <ul id="menu-top-menu" class="clearfix">
+                        <li class="current-menu-item"><a href="/">首页</a></li>
+                        <li><a href="{% url 'users:login' %}">登录</a></li>
+                        <li><a href="{% url 'users:register' %}">注册</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </header>
+    </div>
+    <div class="login-main-wrap">
+        <div class="login-main wrapper">
+            <div class="login-box">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="box-hd">
+                        <span class="tit">用户登录</span>
+                        <a href="{% url 'users:register' %}">注册新账号</a>
+                    </div>
+                    <label class="txtin-box">
+                        <span class="ico user"></span>
+                        <input class="txtin" type="text" value="{{ data.name_mobile }}" name="name_mobile" placeholder="用户名/手机" />
+                        <p class="error_msg">{{ form.errors.name_mobile.0 }}</p>
+                    </label>
+                    <label class="txtin-box">
+                        <span class="ico pwd"></span>
+                        <input class="txtin" type="password" name="password" placeholder="密码" />
+                        <p class="error_msg">{{ form.errors.password.0 }}</p>
+                    </label>
+                    <div class="clearfix tool">
+                        <label class="check"><input type="checkbox" id="" />自动登录</label>
+                        <a class="find" href="">忘记密码？</a>
+                    </div>
+                    <input class="tjj" type="submit" value="登&ensp;录" style="width:100%;"/>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--<div class="login-footer">-->
+        <!--千锋教育成都-->
+    <!--</div>-->
+{% endblock %}
